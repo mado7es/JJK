@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JJK Character Showcase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --text: #f1f1f1;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--accent);
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #ccc;
+        }
+
+        .welcome-message {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            border-left: 5px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-message h2 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .character-selection {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .character-btn {
+            background: var(--card-bg);
+            border: none;
+            border-radius: 10px;
+            padding: 15px 25px;
+            color: var(--text);
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            min-width: 180px;
+            justify-content: center;
+        }
+
+        .character-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .character-btn.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .character-btn.yuji {
+            border-left: 5px solid #FF6B6B;
+        }
+
+        .character-btn.gojo {
+            border-left: 5px solid #4ECDC4;
+        }
+
+        .character-btn.toji {
+            border-left: 5px solid #FFD166;
+        }
+
+        .character-btn.sukuna {
+            border-left: 5px solid #9D4EDD;
+        }
+
+        .character-info {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .character-info.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .character-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .character-image {
+            width: 220px;
+            height: 220px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 5px solid;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .yuji-img {
+            border-color: #FF6B6B;
+        }
+
+        .gojo-img {
+            border-color: #4ECDC4;
+        }
+
+        .toji-img {
+            border-color: #FFD166;
+        }
+
+        .sukuna-img {
+            border-color: #9D4EDD;
+        }
+
+        .character-name {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .character-title {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .info-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .info-section h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-section p {
+            margin-bottom: 15px;
+        }
+
+        .abilities-list {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+
+        .abilities-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .abilities-list li:last-child {
+            border-bottom: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .character-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 120px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .character-selection {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .character-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .character-name {
+                font-size: 2rem;
+            }
+            
+            .character-image {
+                width: 180px;
+                height: 180px;
+            }
+        }
+
+        /* Character-specific colors */
+        .yuji-color { color: #FF6B6B; }
+        .gojo-color { color: #4ECDC4; }
+        .toji-color { color: #FFD166; }
+        .sukuna-color { color: #9D4EDD; }
+        
+        .image-attribution {
+            font-size: 0.7rem;
+            color: #666;
+            text-align: center;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Jujutsu Kaisen Character Showcase</h1>
+            <p>Select a character to view detailed information about their abilities, backstory, and role in the series.</p>
+        </header>
+        
+        <div class="welcome-message">
+            <h2><i class="fas fa-exclamation-circle"></i> Choose Your Character!</h2>
+            <p>Select from Yuji Itadori, Satoru Gojo, Toji Fushiguro, or Ryomen Sukuna to learn more about them.</p>
+        </div>
+        
+        <div class="character-selection">
+            <button class="character-btn yuji active" data-character="yuji">
+                <i class="fas fa-fist-raised"></i> Yuji Itadori
+            </button>
+            <button class="character-btn gojo" data-character="gojo">
+                <i class="fas fa-eye"></i> Satoru Gojo
+            </button>
+            <button class="character-btn toji" data-character="toji">
+                <i class="fas fa-user-ninja"></i> Toji Fushiguro
+            </button>
+            <button class="character-btn sukuna" data-character="sukuna">
+                <i class="fas fa-crown"></i> Ryomen Sukuna
+            </button>
+        </div>
+        
+        <!-- Yuji Itadori -->
+        <div class="character-info active" id="yuji-info">
+            <div class="character-header">
+                <img src="https://cdn.discordapp.com/attachments/1322197253431103489/1469416615333466255/66720cbcd3e65f7d25041e1b9469fe3e.jpg?ex=6987945d&is=698642dd&hm=ef6505275554ba54e726e786819cb09cf408f96aed5599cb94a4d417a6a0e69d&" alt="Yuji Itadori" class="character-image yuji-img">
+                <h2 class="character-name yuji-color">Yuji Itadori</h2>
+                <p class="character-title">The Vessel of Sukuna</p>
+                <div class="image-attribution">Yuji Itadori - Jujutsu Kaisen</div>
+                
+                <div class="character-stats">
+                    <div class="stat">
+                        <div class="stat-value">A+</div>
+                        <div class="stat-label">Physical Ability</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">B</div>
+                        <div class="stat-label">Cursed Energy</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">S</div>
+                        <div class="stat-label">Potential</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">85%</div>
+                        <div class="stat-label">Compatibility</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-section">
+                    <h3 class="yuji-color"><i class="fas fa-book"></i> Background</h3>
+                    <p>Yuji Itadori is the main protagonist of Jujutsu Kaisen. He was a regular high school student until he encountered a cursed object—Sukuna's finger—and became its vessel to save his friends.</p>
+                    <p>Despite his situation, Yuji maintains an optimistic personality and strong moral compass, determined to help others and consume all of Sukuna's fingers to eliminate the King of Curses.</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="yuji-color"><i class="fas fa-bolt"></i> Abilities</h3>
+                    <ul class="abilities-list">
+                        <li><i class="fas fa-star"></i> <strong>Superhuman Physicality:</strong> Extraordinary strength, speed, and durability</li>
+                        <li><i class="fas fa-hand-fist"></i> <strong>Divergent Fist:</strong> Delayed cursed energy impact</li>
+                        <li><i class="fas fa-fist-raised"></i> <strong>Black Flash:</strong> Spatial distortion when cursed energy connects within 0.000001 seconds</li>
+                        <li><i class="fas fa-skull"></i> <strong>Sukuna's Techniques:</strong> Access to some of Sukuna's abilities</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="yuji-color"><i class="fas fa-tasks"></i> Role in Story</h3>
+                    <p>Yuji is a first-year student at Tokyo Jujutsu High under the guidance of Satoru Gojo. His mission is to locate and consume all 20 of Sukuna's fingers to eliminate the curse forever.</p>
+                    <p>He forms close bonds with classmates Megumi Fushiguro and Nobara Kugisaki, and despite the danger he poses as Sukuna's vessel, he's determined to use his power to save people.</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="yuji-color"><i class="fas fa-heart"></i> Personality</h3>
+                    <p>Yuji is characterized by his kindness, empathy, and strong sense of justice. He believes in helping others and values all human life, which often puts him at odds with the jujutsu world's harsh realities.</p>
+                    <p>Despite the immense burden of hosting Sukuna, Yuji remains surprisingly optimistic and determined to live a life where he can save as many people as possible.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Satoru Gojo -->
+        <div class="character-info" id="gojo-info">
+            <div class="character-header">
+                <img src="https://cdn.discordapp.com/attachments/1322197253431103489/1469416615039733871/1d86b335703cf92011a536d31f14256b.jpg?ex=6987945d&is=698642dd&hm=42aee7b9ad1fcfe83192a7ee29ebe3d9fb53d96af886c61f8ffc84a3661530c3&" alt="Satoru Gojo" class="character-image gojo-img">
+                <h2 class="character-name gojo-color">Satoru Gojo</h2>
+                <p class="character-title">The Strongest Jujutsu Sorcerer</p>
+                <div class="image-attribution">Satoru Gojo - Jujutsu Kaisen</div>
+                
+                <div class="character-stats">
+                    <div class="stat">
+                        <div class="stat-value">S+</div>
+                        <div class="stat-label">Overall Power</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">∞</div>
+                        <div class="stat-label">Cursed Energy</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">SS</div>
+                        <div class="stat-label">Technique</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Potential Realized</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-section">
+                    <h3 class="gojo-color"><i class="fas fa-book"></i> Background</h3>
+                    <p>Satoru Gojo is a special grade jujutsu sorcerer and widely recognized as the strongest in the world. He comes from the prestigious Gojo Clan and is the first person to inherit both the Limitless technique and the Six Eyes in centuries.</p>
+                    <p>He works as a teacher at Tokyo Jujutsu High where he mentors the next generation of sorcerers, including Yuji Itadori, Megumi Fushiguro, and Nobara Kugisaki.</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="gojo-color"><i class="fas fa-bolt"></i> Abilities</h3>
+                    <ul class="abilities-list">
+                        <li><i class="fas fa-infinity"></i> <strong>Limitless:</strong> Manipulation of space at an atomic level</li>
+                        <li><i class="fas fa-eye"></i> <strong>Six Eyes:</strong> Extraordinary perception and cursed energy efficiency</li>
+                        <li><i class="fas fa-snowflake"></i> <strong>Infinity:</strong> Automatic defense that slows approaching objects infinitely</li>
+                        <li><i class="fas fa-expand-arrows-alt"></i> <strong>Hollow Purple:</strong> Imaginary mass that erases matter from existence</li>
+                        <li><i class="fas fa-brain"></i> <strong>Domain Expansion: Unlimited Void:</strong> Overwhelms targets with infinite information</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="gojo-color"><i class="fas fa-tasks"></i> Role in Story</h3>
+                    <p>Gojo serves as a mentor to the protagonists and is a major force for change in the jujutsu world. He aims to reform the corrupt jujutsu society and nurture strong allies who can stand beside him.</p>
+                    <p>His immense power maintains balance in the world, preventing catastrophic curses from overwhelming humanity. His sealing during the Shibuya Incident creates a major turning point in the series.</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="gojo-color"><i class="fas fa-heart"></i> Personality</h3>
+                    <p>Gojo is confident, playful, and often irreverent, masking a more serious and calculating nature. He cares deeply for his students and friends but maintains emotional distance due to his overwhelming power.</p>
+                    <p>Despite his casual demeanor, he's a strategic thinker committed to creating a better jujutsu world, even if it means going against traditional authorities.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Toji Fushiguro -->
+        <div class="character-info" id="toji-info">
+            <div class="character-header">
+                <img src="https://cdn.discordapp.com/attachments/1322197253431103489/1469416614494605407/6b1b023c45e20b995cf96e2050f4639f.jpg?ex=6987945d&is=698642dd&hm=a7ad204106cd0a0d9d3b111d4653022617a02600f61dc3cc50b1ce3734ee7eba&" alt="Toji Fushiguro" class="character-image toji-img">
+                <h2 class="character-name toji-color">Toji Fushiguro</h2>
+                <p class="character-title">The Sorcerer Killer</p>
+                <div class="image-attribution">Toji Fushiguro - Jujutsu Kaisen</div>
+                
+                <div class="character-stats">
+                    <div class="stat">
+                        <div class="stat-value">S</div>
+                        <div class="stat-label">Physical Prowess</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Cursed Energy</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">A+</div>
+                        <div class="stat-label">Weapon Mastery</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Heavenly Restriction</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-section">
+                    <h3 class="toji-color"><i class="fas fa-book"></i> Background</h3>
+                    <p>Toji Fushiguro, born Toji Zenin, is a former member of the Zenin Clan who left due to his lack of cursed energy. He possesses a Heavenly Restriction that grants him superhuman physical abilities in exchange for no cursed energy.</p>
+                    <p>He worked as a mercenary and assassin, earning the title "Sorcerer Killer" for his ability to defeat even special grade sorcerers. He's the father of Megumi Fushiguro.</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="toji-color"><i class="fas fa-bolt"></i> Abilities</h3>
+                    <ul class="abilities-list">
+                        <li><i class="fas fa-dumbbell"></i> <strong>Heavenly Restriction:</strong> Superhuman strength, speed, and senses without cursed energy</li>
+                        <li><i class="fas fa-eye-slash"></i> <strong>Cursed Energy Invisibility:</strong> Undetectable to sorcerers and curses due to zero cursed energy</li>
+                        <li><i class="fas fa-toolbox"></i> <strong>Cursed Tool Mastery:</strong> Expert use of various cursed tools and weapons</li>
+                        <li><i class="fas fa-worm"></i> <strong>Inventory Curse:</strong> Stores weapons in a curse's stomach for instant retrieval</li>
+                        <li><i class="fas fa-sword"></i> <strong>Split Soul Katana:</strong> Ignores durability by targeting the soul directly</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="toji-color"><i class="fas fa-tasks"></i> Role in Story</h3>
+                    <p>Toji plays a crucial role in Gojo's past, being the only person to ever defeat him (before Gojo's awakening to Reverse Cursed Technique). His actions directly influence the events of the Hidden Inventory arc.</p>
+                    <p>His legacy continues through his son Megumi, whom he sold to the Zenin clan before his death. Toji's existence challenges the jujutsu world's belief that cursed energy is necessary for power.</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="toji-color"><i class="fas fa-heart"></i> Personality</h3>
+                    <p>Toji is cynical, pragmatic, and driven by material needs due to his impoverished upbringing. He rejects the jujutsu world that rejected him, viewing sorcerers with contempt.</p>
+                    <p>Despite his cold exterior, he shows unexpected care for Megumi, ensuring his son would have a better life than he did, even if through unconventional means.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ryomen Sukuna -->
+        <div class="character-info" id="sukuna-info">
+            <div class="character-header">
+                <img src="https://cdn.discordapp.com/attachments/1322197253431103489/1469416614788071696/368157b1eb0c60529ac6abc1ae8c4dae.jpg?ex=6987945d&is=698642dd&hm=50ebb3ba3b69c202a8048bb5971203093a026af3effff8106f40d5637137965a&" alt="Ryomen Sukuna" class="character-image sukuna-img">
+                <h2 class="character-name sukuna-color">Ryomen Sukuna</h2>
+                <p class="character-title">The King of Curses</p>
+                <div class="image-attribution">Ryomen Sukuna - Jujutsu Kaisen</div>
+                
+                <div class="character-stats">
+                    <div class="stat">
+                        <div class="stat-value">SS</div>
+                        <div class="stat-label">Overall Power</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">∞</div>
+                        <div class="stat-label">Cursed Energy</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">S+</div>
+                        <div class="stat-label">Malevolence</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">20/20</div>
+                        <div class="stat-label">Fingers Collected</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-section">
+                    <h3 class="sukuna-color"><i class="fas fa-book"></i> Background</h3>
+                    <p>Ryomen Sukuna is the undisputed King of Curses, a legendary figure from the Heian Era who was so powerful that even after death, his remains persisted as 20 indestructible cursed objects (fingers).</p>
+                    <p>In the present day, he becomes incarnated within Yuji Itadori after Yuji consumes one of his fingers. Sukuna represents the pinnacle of cursed energy mastery and pure malevolence.</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="sukuna-color"><i class="fas fa-bolt"></i> Abilities</h3>
+                    <ul class="abilities-list">
+                        <li><i class="fas fa-cut"></i> <strong>Cleave and Dismantle:</strong> Slashing techniques that adapt to target's toughness or cut everything in range</li>
+                        <li><i class="fas fa-fire"></i> <strong>Fire Arrow:</strong> Devastating fire-based attack revealed during Jogo's battle</li>
+                        <li><i class="fas fa-expand"></i> <strong>Domain Expansion: Malevolent Shrine:</strong> 200-meter barrierless domain with guaranteed hits</li>
+                        <li><i class="fas fa-heartbeat"></i> <strong>Reverse Cursed Technique:</strong> Can heal himself and others</li>
+                        <li><i class="fas fa-brain"></i> <strong>Unknown Cursed Techniques:</strong> Sukuna possesses additional unrevealed techniques</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="sukuna-color"><i class="fas fa-tasks"></i> Role in Story</h3>
+                    <p>Sukuna serves as the primary antagonist of the series, though he operates through Yuji as his vessel. He seeks to regain his full power by having Yuji consume all his fingers.</p>
+                    <p>He occasionally takes control of Yuji's body under specific conditions, causing catastrophic damage. His ultimate goals remain mysterious but involve reshaping the world according to his desires.</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3 class="sukuna-color"><i class="fas fa-heart"></i> Personality</h3>
+                    <p>Sukuna is arrogant, cruel, and self-indulgent, viewing others as inferior beings to be used or destroyed according to his whims. He follows no moral code beyond his own pleasure and interests.</p>
+                    <p>Despite his malevolence, he respects strength and skill, occasionally showing interest in powerful opponents like Gojo. He maintains a complex relationship with Yuji, often mocking his host's morality while occasionally assisting him.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Jujutsu Kaisen Character Showcase | Created for JJK Fans | All character information based on the manga by Gege Akutami</p>
+            <p style="margin-top: 10px;">Click on character buttons to switch between profiles</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const characterButtons = document.querySelectorAll('.character-btn');
+            const characterInfos = document.querySelectorAll('.character-info');
+            
+            // Set initial active character (Yuji)
+            setActiveCharacter('yuji');
+            
+            // Add click event listeners to character buttons
+            characterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const character = this.getAttribute('data-character');
+                    
+                    // Update active button
+                    characterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding character info
+                    setActiveCharacter(character);
+                });
+            });
+            
+            function setActiveCharacter(character) {
+                // Hide all character info sections
+                characterInfos.forEach(info => {
+                    info.classList.remove('active');
+                });
+                
+                // Show selected character info
+                const activeInfo = document.getElementById(`${character}-info`);
+                if (activeInfo) {
+                    activeInfo.classList.add('active');
+                }
+                
+                // Update welcome message
+                const welcomeMessage = document.querySelector('.welcome-message h2');
+                const characterNames = {
+                    yuji: 'Yuji Itadori',
+                    gojo: 'Satoru Gojo',
+                    toji: 'Toji Fushiguro',
+                    sukuna: 'Ryomen Sukuna'
+                };
+                
+                welcomeMessage.innerHTML = `<i class="fas fa-check-circle"></i> Now Viewing: ${characterNames[character]}`;
+                
+                // Update welcome message text
+                const welcomeText = document.querySelector('.welcome-message p');
+                welcomeText.textContent = `Explore detailed information about ${characterNames[character]}'s abilities, background, and role in the Jujutsu Kaisen story.`;
+            }
+            
+            // Add some interactive effects
+            const characterImages = document.querySelectorAll('.character-image');
+            characterImages.forEach(img => {
+                img.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                
+                img.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
